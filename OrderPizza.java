@@ -1,6 +1,9 @@
 /**
  * @author Vinayak Rao
  * This program takes a pizza order, calculates subtotal, tax, and total.
+ subtotal:
+ tax:
+ total:
  */
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,18 +17,27 @@ public class OrderPizza
     
     public static void main(String[] args)
     {
+    	double total = 0;
+    	double subtotal = 0;
+    	double tax = 0;
         try
         {
-            int pizza = readValue("  Pizza cost $9.99.  How many pizzas would you like?");
-            int toppings = readValue("Toppings cost $0.99 each.  How many toppings on each pizza?");
-            int wings = readValue("Wings cost $5.99.  How many orders of wings would you like?");
+            int pizza = readValue("How many pizzas would you like?");
+            int toppings = readValue("How many toppings on each pizza?");
+            int wings = readValue("How many orders of wings would you like?");
+            
+            subtotal = calculateSubTotal(pizza, toppings, wings);
+            tax = calculateTax(subtotal);
+            total = calculateTotal(subtotal, tax);
             //Put code here to CALCULATE AND PRINT subtotal, tax, and total. 
+            System.out.println("Subtotal:" + subtotal);
+            System.out.println("tax:" + tax);
+            System.out.println("total:" + total);
         }	
         catch (Exception e)
         {
             System.out.println("Unable to place order");
         }
-
     }	
     
     
@@ -39,7 +51,21 @@ public class OrderPizza
     public static double calculateSubTotal(int numPizzas, int numToppings, int numWings)
     {
         //Write a function to calculate the subtotal
-        return 0;
+        return (numPizzas * COST_OF_PIZZA) + (numToppings * COST_OF_TOPPING) + (numWings * COST_OF_WINGS);
+    }
+    /**
+    
+    */
+    public static double calculateSubtotalWithoutWings(int numPizzas, int numToppings) 
+    {
+    	return (numPizzas * COST_OF_PIZZA) + (numToppings * COST_OF_TOPPING);
+    }
+    /**
+    
+    */
+    public static double calculateWings(int wings)
+    {
+    	return (wings * COST_OF_WINGS);
     }
     
     /**
@@ -51,7 +77,7 @@ public class OrderPizza
     public static double calculateTax(double subtotal)
     {
         //Write code here to calculate the tax 
-        return 0;
+        return (TAX / 100) * subtotal;
     }
     
     /**
@@ -64,7 +90,7 @@ public class OrderPizza
     public static double calculateTotal(double subtotal, double tax)
     {
         // write code to calculate the total here.
-        return 0;
+        return subtotal + tax;
     }
     
     /**
