@@ -1,11 +1,9 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.util.ArrayList;
 import java.lang.Integer;
 
 public class AsciiArtBuilder
@@ -25,6 +23,16 @@ public class AsciiArtBuilder
     	*/
     	File dir = new File("Art/");
     	File[] files = dir.listFiles();
+    	// check the folder exist or not
+    	if (!dir.exists()) {
+    		System.out.println("Please put your ascii image files in " + dir.getAbsolutePath());
+    		System.exit(0);
+    	}
+    	//if files is null , it means this folder desn't has any file
+    	if (files == null) {
+    		System.out.println("Please put your ascii image files in " + dir.getAbsolutePath());
+    		System.exit(0);
+    	}
 		for (File file : files) {
 			if (!file.isDirectory())
 				listFileContent(file);
@@ -46,7 +54,7 @@ public class AsciiArtBuilder
     	String outputPath = String.format("Art/output/%s", file.getName());
     	File output = new File(outputPath);
     	/*
-    	is file exist then delete, or the output will append at the end of the file
+    	if file exist then delete, or the output will append at the end of the file
     	*/
     	if (output.exists()) {
     		output.delete();
@@ -95,7 +103,6 @@ public class AsciiArtBuilder
      */
     public static void imageToNumRep(File input, File output)
     {
-		System.out.println("=============================== start processing ===============================");
 		char[][] rep = imageToArrayRep(input);
 		char[][] out = new char[rep.length][];
 		int index = 0;
@@ -138,7 +145,6 @@ public class AsciiArtBuilder
 				current = c;
 			}
 			//print the last char and number of counts
-			//System.out.print(cnt + "," + current);
 			sb.append(cnt + "/,/," + current);
 			System.out.println(sb.toString());
 			out[index] = sb.toString().toCharArray();
@@ -264,7 +270,6 @@ public class AsciiArtBuilder
 					StringBuilder sb = new StringBuilder();
 					for (char c : array) {
 						sb.append(c);
-						System.out.print(c);
 					}
 				
 					bw.write(sb.toString());
@@ -275,9 +280,6 @@ public class AsciiArtBuilder
 				avoid to print null or empty array
 				*/
 					System.out.println("this line is null");
-				}
-				finally {
-					System.out.println("");
 				}
 			}
 			bw.close();
