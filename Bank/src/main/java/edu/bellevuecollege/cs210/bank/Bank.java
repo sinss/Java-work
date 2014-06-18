@@ -35,7 +35,8 @@ public class Bank {
      */
     public void closeAccount(String accountNumber) throws UnknownAccountException
     {
-
+    	Account acct = getAccount(accountNumber);
+    	acct.close();
     }
 
     /**
@@ -45,7 +46,17 @@ public class Bank {
      */
     public Account getAccount(String accountNumber) throws UnknownAccountException
     {
-        return null;
+    	Account target = null;
+    	for (Account acct : accountList) {
+    		if (acct.getAccountNumber().equals(accountNumber)) {
+    			target = acct; 
+    		}
+    	}
+    	/* if the target is null , it means there isn't find any account that match the accountNumber */
+    	if (target == null || !target.isOpen()) {
+    		throw new UnknownAccountException("this account doesn't exist or has been closed");
+    	}
+        return target;
     }
 
     /**
@@ -54,6 +65,6 @@ public class Bank {
      */
     public Account[] getAllAccounts()
     {
-        return null;
+        return accountList.toArray(new Account[accountList.size()]);
     }
 }

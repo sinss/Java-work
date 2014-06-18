@@ -9,6 +9,8 @@ public class Account {
 	String firstName;
 	String lastName;
 	String acctNo;
+	Double balance = 0.0;
+	boolean open = false;
     /**
      * Create a new account with the information passed in.
      * @param firstName First name of the account holder.
@@ -20,8 +22,8 @@ public class Account {
     	this.firstName = firstName;
     	this.lastName = lastName;
     	this.acctNo = acctNo;
-    	
-    	System.out.println("accountNo : " + acctNo);
+    	this.open = true;
+    	System.out.println("accountNo : " + acctNo + " has being create");
     }
 
     /**
@@ -31,7 +33,8 @@ public class Account {
      */
     public BigDecimal deposit(BigDecimal depositAmount)
     {
-        return new BigDecimal(0);
+    	balance += depositAmount.doubleValue();
+        return new BigDecimal(balance);
     }
 
     /**
@@ -42,7 +45,17 @@ public class Account {
      */
     public BigDecimal withdraw(BigDecimal withdrawalAmount) throws NonSufficientFundsException
     {
+    	/* the balance doesn't enough to withdraw */
+    	if (balance - withdrawalAmount.doubleValue() < 0) {
+    		throw new NonSufficientFundsException("there isn't enough balance of this account, please check again");
+    	}
+    	/* the balance can withdraw */
+    	balance += withdrawalAmount.doubleValue();
         return new BigDecimal(0);
+    }
+    
+    public void close() {
+    	open = false;
     }
 
     /**
@@ -51,21 +64,40 @@ public class Account {
      */
     public BigDecimal getBalance()
     {
-        return new BigDecimal(0);
+        return new BigDecimal(balance);
     }
 
     public String getFirstName()
     {
-        return null;
+        return firstName;
     }
 
     public String getLastName()
     {
-       return null;
+       return lastName;
     }
 
     public String getAccountNumber()
     {
-        return null;
+        return acctNo;
+    }
+    
+    public boolean isOpen() {
+    	return open;
+    }
+    
+    /**
+     * @return customize the display string
+     * */
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(getAccountNumber() + "\n");
+    	sb.append(getFirstName() + " " + getLastName() + "\n");
+    	sb.append("Balance : "+ getBalance() + "\n");
+    	sb.append("status: " + (isOpen()?"active" : "closed") + "\n");
+    	sb.append("\n");
+    	sb.append("------------------------------\n");
+        return sb.toString();
     }
 }

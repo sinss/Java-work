@@ -100,21 +100,18 @@ public class Main
                     Account[] accounts = bank.getAllAccounts();
                     for (Account acct: accounts)
                     {
-                        System.out.println(acct.getAccountNumber());
-                        System.out.println(acct.getFirstName() + " " + acct.getLastName());
-                        System.out.println(acct.getBalance());
-                        System.out.println();
+                    	System.out.println(acct.toString());
                     }
                     break;
                 }
                 case 7:
                 {
                     done = true;
+                    System.out.println("System exit");
                     break;
                 }
 
             }
-
         }
     }
 
